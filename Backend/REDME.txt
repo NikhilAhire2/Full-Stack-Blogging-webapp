@@ -1,0 +1,12 @@
+install locally 
+npm i 
+Cloudinary is a cloud-based media management service used to upload, store, optimize, transform, and deliver images & videos efficiently in web and mobile apps.
+What is Data URI?
+
+A Data URI is a way to embed file data directly inside a URL as text (Base64 encoded)
+
+Basically is help store data(images,video) base64 in database
+it also helps to show preview of the image without uplod in database
+ex {
+  "image": "data:image/jpeg;base64,/9j/4AAQSk..."
+}

@@ -1,0 +1,9 @@
+{
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["vite-project/src/src/*"]
+    }
+  },
+  "include": ["vite-project/src/src", "vite-project/src/lib", "vite-project/src/components", "vite-project/src/Pages/BlogCard.jsx", "vite-project/src/Pages/PopularAuthors.jsx", "vite-project/src/Pages/Footer.jsx"]
+}
