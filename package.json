@@ -4,9 +4,9 @@
   "main": "server.js",
   "type": "module",
   "scripts": {
-  "start": "nodemon backend/server.js",
-  "build": "npm install && npm install --prefix frontend/vite-project && npm run build --prefix frontend/vite-project",
-  "start": "nodemon backend/server.js"
+  "build:frontend": "npm install --prefix Frontend/vite-project && npm run build --prefix Frontend/vite-project",
+    "build": "npm run build:frontend",
+    "start": "node Backend/server.js"
   
   },
   "author": "",
