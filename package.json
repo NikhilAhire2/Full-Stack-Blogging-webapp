@@ -6,8 +6,8 @@
   "scripts": {
   "start": "nodemon backend/server.js",
   "build": "npm install && npm install --prefix frontend/vite-project && npm run build --prefix frontend/vite-project",
-  "start": "nodemon backend/server.js",
-  "build": "npm run build:frontend"
+  "start": "nodemon backend/server.js"
+  
   },
   "author": "",
   "license": "ISC",
