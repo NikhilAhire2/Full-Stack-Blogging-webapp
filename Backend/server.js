@@ -47,6 +47,11 @@ app.use((req, res) => {
   res.sendFile(path.join(__dirname, "../frontend/vite-project/dist", "index.html"));
 });
 
+// app.use(express.static("Frontend/vite-project/dist"));
+// app.get("*", (req, res) => {
+//   res.sendFile(path.resolve("Frontend/vite-project/dist/index.html"));
+// });
+
 
 
 
