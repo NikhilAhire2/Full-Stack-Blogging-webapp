@@ -1,0 +1,21 @@
+If you already committed code to Git and want to go back to an older version, there are several ways:
+
+1. View Previous Commits
+git log --oneline
+
+Example:
+
+a1b2c3d Added Navbar
+e4f5g6h Fixed Sidebar
+i7j8k9l Initial Project
+
+Copy the commit ID you want to return to.
+
+2. Temporarily View an Old Version
+git checkout a1b2c3d
+
+This lets you see that version without changing your branch permanently.
+
+To return:
+
+git checkout main

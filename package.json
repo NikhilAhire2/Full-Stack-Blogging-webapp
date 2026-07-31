@@ -4,12 +4,16 @@
   "main": "server.js",
   "type": "module",
   "scripts": {
-    "start": "nodemon server.js"
+  "start": "nodemon backend/server.js",
+  "build": "npm install && npm install --prefix frontend/vite-project && npm run build --prefix frontend/vite-project",
+  "start": "nodemon backend/server.js",
+  "build": "npm run build:frontend"
   },
   "author": "",
   "license": "ISC",
   "description": "",
   "dependencies": {
+    "@google/generative-ai": "^0.24.1",
     "bcryptjs": "^3.0.3",
     "cloudinary": "^2.8.0",
     "cookie-parser": "^1.4.7",

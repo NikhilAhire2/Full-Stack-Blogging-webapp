@@ -2,6 +2,9 @@ import { log } from "console";
 import {Blog} from "../Models/Blog_model.js";
 import cloudinary from "../utils/cloudinary.js";
 import getDataUri from "../utils/data_uri.js";
+import { generateSummary } from "../utils/gemini.js";
+import { askGeminiQuestion,translateWithGemini } from "../utils/gemini.js";
+
 
 export const createBlog=async(req,res)=>{
     try {
@@ -261,3 +264,148 @@ export const getMyTotalBlogLikes=async(req,res)=>{
         
     }
 }
+
+
+
+export const summarizeBlog = async (req, res) => {
+  try {
+
+    const { content } = req.body;
+
+    if (!content) {
+      return res.status(400).json({
+        success: false,
+        message: "Blog content is required"
+      });
+    }
+
+    const summary = await generateSummary(content);
+
+    return res.status(200).json({
+      success: true,
+      summary
+    });
+
+  } catch (error) {
+
+    console.log(error);
+
+    return res.status(500).json({
+      success: false,
+      message: "Failed to generate summary"
+    });
+  }
+};
+
+
+export const askBlogQuestion = async (
+  req,
+  res
+) => {
+  try {
+
+    const { blogId, question, history } = req.body;
+
+    if (!blogId || !question) {
+      return res.status(400).json({
+        success: false,
+        message: "Blog ID and question required",
+      });
+    }
+
+
+
+
+
+    const blog = await Blog.findById(blogId);
+// console.log("BLOG FOUND:", blog);
+// console.log("DESCRIPTION:", blog?.description);
+    if (!blog) {
+      return res.status(404).json({
+        success: false,
+        message: "Blog not found",
+      });
+    }
+const cleanContent =
+  blog.description?.replace(/<[^>]*>/g, "") || "";
+
+    const answer = await askGeminiQuestion(
+  cleanContent,
+  question,
+  history
+);
+
+    return res.status(200).json({
+      success: true,
+      answer,
+    });
+
+  } catch (error) {
+
+  console.log(error);
+
+  if (error.status === 503) {
+    return res.status(503).json({
+      success:false,
+      message:
+      "AI service is busy. Please try again shortly."
+    });
+  }
+
+  return res.status(500).json({
+    success:false,
+    message:"Failed to answer question"
+  });
+}
+};
+
+
+export const translateBlog =
+async (req, res) => {
+
+  try {
+
+    const { blogId, language } =
+      req.body;
+
+    const blog =
+      await Blog.findById(blogId);
+
+    if (!blog) {
+
+      return res.status(404).json({
+        success: false,
+        message: "Blog not found"
+      });
+
+    }
+
+    const cleanContent =
+      blog.description?.replace(
+        /<[^>]*>/g,
+        ""
+      ) || "";
+
+    const translation =
+      await translateWithGemini(
+        cleanContent,
+        language
+      );
+
+    return res.status(200).json({
+      success: true,
+      translation
+    });
+
+  } catch (error) {
+
+    console.log(error);
+
+    return res.status(500).json({
+      success: false,
+      message:
+        "Translation failed"
+    });
+
+  }
+};

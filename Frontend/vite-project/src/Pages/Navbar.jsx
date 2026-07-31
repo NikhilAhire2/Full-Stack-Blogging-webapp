@@ -11,7 +11,7 @@ import store from '../redux/store.js';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { toggleTheme } from '../redux/themeSlice.js';
-import {HiMenuAlt3} from "react-icons/hi"
+import { HiMenuAlt3 } from "react-icons/hi"
 import { toast } from 'sonner';
 import axios from 'axios';
 import ResponsiveMenu from "../components/ui/ResponsiveMenu.jsx"
@@ -51,11 +51,12 @@ import {
 
 
 const Navbar = () => {
-    const [searchTerm,setSearchTerm]=useState("")
-    const [openNav,setOpenNav]=useState(false)
+    const [searchTerm, setSearchTerm] = useState("")
+    const [openNav, setOpenNav] = useState(false)
     const dispatch = useDispatch()
     const navigate = useNavigate()
     const { theme } = useSelector(store => store.theme)
+
     const handleLogout = async (e) => {
         try {
             const res = await axios.get("http://localhost:8000/api/v1/user/logout", { withCredentials: true })
@@ -73,9 +74,9 @@ const Navbar = () => {
         }
 
     }
-const toggleNav=(e)=>{
-    setOpenNav(!openNav)
-}
+    const toggleNav = (e) => {
+        setOpenNav(!openNav)
+    }
     const handleSearch = (e) => {
         e.preventDefault();
         if (searchTerm.trim() !== '') {
@@ -85,10 +86,12 @@ const toggleNav=(e)=>{
     };
 
     const { user } = useSelector(store => store.auth)
+    
+
     return (
         <div className='py-2 fixed top-0 left-0 w-full z-50 dark:bg-gray-800 dark:border-b-gray-600 border-2 bg-white'>
 
-    
+
             <div className='max-w-7xl mx-auto flex justify-between items-center px-4 md:px-0'>
                 <div className='flex gap-7 items-center'>
                     {/*logo section */}
@@ -103,8 +106,8 @@ const toggleNav=(e)=>{
                         <Input
                             type="text"
                             placeholder="Search..."
-                            value={searchTerm} onChange={(e)=>setSearchTerm(e.target.value)}
-                            className="border border-gray-700 dark:text-white dark:bg-gray-900 bg-gray-300 w-[300px] hidden md:block" 
+                            value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)}
+                            className="border border-gray-700 dark:text-white dark:bg-gray-900 bg-gray-300 w-[300px] hidden md:block"
                         />
                         <Button onClick={handleSearch} className="absolute right-0 top-0"><Search /></Button>
                     </div>
@@ -140,26 +143,26 @@ const toggleNav=(e)=>{
                                             <DropdownMenuLabel>My Account</DropdownMenuLabel>
 
                                             <DropdownMenuGroup>
-                                                <DropdownMenuItem className="flex items-center gap-2" onClick={ ()=> navigate("/dashboard/profile")}>
+                                                <DropdownMenuItem className="flex items-center gap-2" onClick={() => navigate("/dashboard/profile")}>
                                                     <User className="h-4 w-4" />
                                                     Profile
                                                     <DropdownMenuShortcut>⇧⌘P</DropdownMenuShortcut>
                                                 </DropdownMenuItem>
 
-                                                <DropdownMenuItem className="flex items-center gap-2" onClick={ ()=> navigate("/dashboard/your-Blogs")}>
+                                                <DropdownMenuItem className="flex items-center gap-2" onClick={() => navigate("/dashboard/your-Blogs")}>
                                                     <CreditCard className="h-4 w-4" />
                                                     Your Blog
                                                     <DropdownMenuShortcut>⌘B</DropdownMenuShortcut>
                                                 </DropdownMenuItem>
 
-                                                <DropdownMenuItem className="flex items-center gap-2" onClick={ ()=> navigate("/dashboard/write")}>
+                                                <DropdownMenuItem className="flex items-center gap-2" onClick={() => navigate("/dashboard/write")}>
                                                     <PenLine className="h-4 w-4" />
                                                     Write Blog
                                                 </DropdownMenuItem>
-                                                 <DropdownMenuItem className="flex items-center gap-2" onClick={ ()=> navigate("/dashboard/comments")}>
-                                                                <MessageSquare className="h-4 w-4" />
-                                                                Comments
-                                                            </DropdownMenuItem>
+                                                <DropdownMenuItem className="flex items-center gap-2" onClick={() => navigate("/dashboard/comments")}>
+                                                    <MessageSquare className="h-4 w-4" />
+                                                    Comments
+                                                </DropdownMenuItem>
 
                                             </DropdownMenuGroup>
 
@@ -181,7 +184,14 @@ const toggleNav=(e)=>{
                                                         <DropdownMenuSubContent>
                                                             <DropdownMenuItem className="flex items-center gap-2">
                                                                 <Mail className="h-4 w-4" />
-                                                                Email
+
+                                                                <Link
+                                                                    to="https://mail.google.com/mail/?view=cm&fs=1&to=recipient@example.com&su=Your%20Subject&body=Your%20Message"
+                                                                    target="_blank"
+                                                                    rel="noopener noreferrer"
+                                                                >
+                                                                    Email
+                                                                </Link>
                                                             </DropdownMenuItem>
 
                                                             <DropdownMenuSeparator />
@@ -194,18 +204,18 @@ const toggleNav=(e)=>{
                                                     </DropdownMenuPortal>
                                                 </DropdownMenuSub>
 
-                                                <DropdownMenuItem className="flex items-center gap-2">
+                                                {/* <DropdownMenuItem className="flex items-center gap-2">
                                                     <Users className="h-4 w-4" />
                                                     New Team
                                                     <DropdownMenuShortcut>⌘+T</DropdownMenuShortcut>
-                                                </DropdownMenuItem>
+                                                </DropdownMenuItem> */}
                                             </DropdownMenuGroup>
 
                                             <DropdownMenuSeparator />
 
                                             <DropdownMenuItem className="flex items-center gap-2">
                                                 <Github className="h-4 w-4" />
-                                                GitHub
+                                                <Link to={user.github}> GitHub</Link>
                                             </DropdownMenuItem>
 
                                             <DropdownMenuItem className="flex items-center gap-2">
@@ -245,12 +255,12 @@ const toggleNav=(e)=>{
                         }
                     </div>
                     {
-                        openNav ? <HiMenuAlt3 onClick={toggleNav} className="w-7 h-7 md:hidden"/> :<HiMenuAlt3 className="w-7 h-7 md:hidden" onClick={toggleNav}/>
-                        
+                        openNav ? <HiMenuAlt3 onClick={toggleNav} className="w-7 h-7 md:hidden" /> : <HiMenuAlt3 className="w-7 h-7 md:hidden" onClick={toggleNav} />
+
                     }
 
                 </nav>
-                <ResponsiveMenu openNav={openNav} setOpenNav={setOpenNav} logoutHandler={handleLogout}/>
+                <ResponsiveMenu openNav={openNav} setOpenNav={setOpenNav} logoutHandler={handleLogout} />
 
             </div>
         </div>

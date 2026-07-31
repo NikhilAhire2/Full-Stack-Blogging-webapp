@@ -6,6 +6,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "../components/ui/avatar.jsx
 import { FaHeart, FaRegHeart } from "react-icons/fa"
 import { useEffect } from 'react'
 import CommentBox from './CommentBox.jsx'
+import { useRef } from 'react'
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -22,10 +23,113 @@ import { setBlog } from '../redux/blogSlice.js'
 import axios from 'axios'
 
 const BlogsView = () => {
+const chatEndRef = useRef(null);
 
+const [selectedLanguage,
+setSelectedLanguage] =
+useState("English");
+
+
+const [translatedContent, setTranslatedContent] =
+  useState("");
+
+const [translationLoading, setTranslationLoading] =
+  useState(false);
+
+// const [loadingAnswer, setLoadingAnswer] =
+//   useState(false);
+
+const [question, setQuestion] = useState("");
+
+const [messages, setMessages] = useState([]);
+
+const [loading, setLoading] = useState(false);
 
   // Params is a React Router hook.
   // It gives you an object containing all the dynamic parameters from the current route URL.
+
+const [summary, setSummary] = useState("");
+const [summaryLoading, setSummaryLoading] = useState(false);
+
+
+
+const generateBlogSummary = async () => {
+  try {
+
+    setSummaryLoading(true);
+
+    const plainText =
+      selectedBlog.description.replace(/<[^>]*>?/gm, "");
+
+    const res = await axios.post(
+      "http://localhost:8000/api/v1/blog/summary",
+      {
+        content: plainText
+      }
+    );
+
+    if (res.data.success) {
+      setSummary(res.data.summary);
+    }
+
+  } catch (error) {
+
+    console.log(error);
+
+    toast.error("Failed to generate summary");
+
+  } finally {
+
+    setSummaryLoading(false);
+  }
+};
+
+
+const askQuestion = async () => {
+  if (!question.trim()) return;
+
+  try {
+    setLoading(true);
+
+    const userQuestion = question;
+
+    const res = await axios.post(
+      "http://localhost:8000/api/v1/blog/ask-blog",
+      {
+        blogId: selectedBlog._id,
+        question: userQuestion,
+        history: messages
+      }
+    );
+
+    if (res.data.success) {
+
+      setMessages(prev => [
+        ...prev,
+        {
+          role: "user",
+          text: userQuestion
+        },
+        {
+          role: "ai",
+          text: res.data.answer
+        }
+      ]);
+
+      setQuestion("");
+    }
+
+  } catch (error) {
+
+  toast.error(
+    error.response?.data?.message ||
+    "AI service unavailable"
+  );
+
+} finally {
+    setLoading(false);
+  }
+};
 
   const params = useParams();
 
@@ -127,9 +231,73 @@ const [liked, setLiked] = useState(
       toast.error(error.response?.data?.message || "Like failed");
     }
   }
-useEffect(()=>{
-  window.scrollTo(0,0)
-})
+
+
+const languages = [
+  "English",
+  "Hindi",
+  "Marathi",
+  "Spanish",
+  "French",
+  "German",
+  "Japanese",
+  "Korean",
+  "Chinese",
+  "Arabic",
+  "Russian",
+  "Portuguese",
+  "Italian",
+  "Tamil",
+  "Telugu",
+  "Gujarati",
+  "Bengali"
+];
+const translateBlog =
+async (language) => {
+
+  setSelectedLanguage(language);
+
+  try {
+
+    setTranslationLoading(true);
+
+    const res =
+      await axios.post(
+        "http://localhost:8000/api/v1/blog/translate",
+        {
+          blogId:
+            selectedBlog._id,
+          language
+        }
+      );
+
+    if (
+      res.data.success
+    ) {
+      setTranslatedContent(
+        res.data.translation
+      );
+    }
+
+  } finally {
+
+    setTranslationLoading(false);
+
+  }
+
+};
+
+useEffect(() => {
+  window.scrollTo(0, 0);
+}, []);
+
+
+
+// useEffect(() => {
+//   chatEndRef.current?.scrollIntoView({
+//     behavior: "smooth"
+//   });
+// }, [messages]);
   return (
     <div className='pt-14'>
       <div className='max-w-6xl mx-auto pt-10'>
@@ -174,17 +342,155 @@ useEffect(()=>{
           </div>
           {/* featured image */}
           <div className='mb-8 rounded-lg overflow-hidden'>
+            
             <img src={selectedBlog.thumbnail} alt='thumbnail' width={1000} height={500} className='w-full object-cover' />
 
           </div>
+<p  className=' mb-1'> Translate Blog</p>
+ <select
+  className="border p-2 rounded"
+  onChange={(e) =>
+    translateBlog(
+      e.target.value
+    )
+  }
+>
 
+<option className='dark:text-black'>
+ 
+Select Language
+</option>
 
+{languages.map(lang => (
+<option className='dark:text-black'
+key={lang}
+value={lang}
+>
+{lang}
+</option>
+))}
+
+</select>
           <p className="prose max-w-none"
             dangerouslySetInnerHTML={{
               __html: selectedBlog.description || "",
             }}></p>
+            <div className="mt-10 border rounded-lg p-5">
+
+{
+  translatedContent && (
+    <div className="mt-6 border p-4 rounded">
+
+      <h2 className="font-bold text-xl mb-3">
+        Translated Version
+      </h2>
+
+      <pre className="whitespace-pre-wrap">
+        {translatedContent}
+      </pre>
+
+    </div>
+  )
+}
+
+<div className="mt-10 border rounded-lg p-5">
+
+  <h2 className="text-xl font-bold mb-4">
+    🤖 Chat With This Blog
+  </h2>
+
+  <div className="h-80 overflow-y-auto border rounded p-3 mb-4">
+
+    {messages.length === 0 && (
+      <p className="text-gray-500">
+        Ask anything about this blog.
+      </p>
+    )}
+
+    {messages.map((msg, index) => (
+      <div
+        key={index}
+        className={`mb-3 ${
+          msg.role === "user"
+            ? "text-right"
+            : "text-left"
+        }`}
+      >
+<div ref={chatEndRef}></div>
+        <div
+          className={`inline-block p-3 rounded-lg ${
+            msg.role === "user"
+              ? "bg-blue-500 text-white"
+              : "bg-gray-200 text-black"
+          }`}
+        >
+          {msg.text}
+        </div>
+
+      </div>
+    ))}
+
+    {loading && (
+      <p>AI is thinking...</p>
+    )}
+
+  </div>
+  <div ref={chatEndRef}></div>
+
+  <div className="flex gap-2">
+
+    <input
+      type="text"
+      value={question}
+      onChange={(e) =>
+        setQuestion(e.target.value)
+      }
+      placeholder="Ask about this blog..."
+      className="flex-1 border rounded p-2"
+    />
+
+    <Button onClick={askQuestion}>
+      Send
+    </Button>
+
+  </div>
+
+</div>
+ 
+
+  {loading && (
+    <p className="mt-3">
+      Thinking...
+    </p>
+  )}
 
 
+
+</div>
+
+<Button
+  onClick={generateBlogSummary}
+  className="mt-6"
+>
+  {summaryLoading
+    ? "Generating..."
+    : "✨ Generate AI Summary"}
+</Button>
+{
+ summary && (
+   <div className="mt-6 border rounded-lg p-4">
+
+      <h2 className="text-xl font-bold mb-3">
+         AI Summary
+      </h2>
+
+      <pre className="whitespace-pre-wrap">
+        {summary}
+      </pre>
+
+   </div>
+ )
+}
           <div className='mt-10 '>
             <div className='flex flex-wrap gap-2 mb-8'>
               <Badge variant="secondary" className="dark:bg-gray-800">next.js</Badge>

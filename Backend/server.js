@@ -8,9 +8,12 @@ import userRoute from "./routes/user.routes.js"
 import blogRoute from "./routes/blog.route.js"
 import cloudinary from "./utils/cloudinary.js";
 import commentRoute from "./routes/comments.route.js"
+import path from "path";
+import { fileURLToPath } from "url";
 
-
-
+// Recreate __dirname in ESM
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 const app = express()
 
 app.use(
@@ -39,6 +42,10 @@ app.use("/api/v1/comment",commentRoute)
 // }))
 
 
+app.use(express.static(path.join(__dirname,"../frontend/vite-project/dist")));
+app.use((req, res) => {
+  res.sendFile(path.join(__dirname, "../frontend/vite-project/dist", "index.html"));
+});
 
 
 

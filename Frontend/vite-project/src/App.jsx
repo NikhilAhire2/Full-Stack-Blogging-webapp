@@ -15,7 +15,7 @@ import UpdateBlog from './Pages/UpdateBlog'
 import BlogsView from './Pages/BlogsView'
 import Footer from "./Pages/Footer"
 import SerachList from './Pages/SerachList'
-
+import ProtectedRoute from "./components/ui/ProtectedRute"
 const router=createBrowserRouter([
   {
     path:"/",
@@ -43,7 +43,7 @@ const router=createBrowserRouter([
 
   {
     path:"/blogs/:id",
-    element:<><Navbar/><BlogsView/><Footer/></>
+    element:<><Navbar/><ProtectedRoute><BlogsView/></ProtectedRoute><Footer/></>
   },
   {
     path: "/search",
@@ -51,7 +51,7 @@ const router=createBrowserRouter([
   },
   {
     path:"/dashboard",
-    element:<><Navbar/><Dashboard/></>,
+    element:<><Navbar/><ProtectedRoute><Dashboard/></ProtectedRoute></>,
 
     children:[
       {

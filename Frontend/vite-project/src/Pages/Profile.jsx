@@ -125,7 +125,7 @@ const Profile = () => {
             <Avatar className="w-40 h-40 border-2">
               <AvatarImage src={user?.photoUrl || UserLogo} />
             </Avatar>
-            <h1 className='text-center font-semibold text-xl text-gray-700 dark:text-gray-300 mt-4'>{user.occupation || "Full Stack Developer "}</h1>
+            <h1 className='text-center font-semibold text-xl text-gray-700 dark:text-gray-300 mt-4'>{user?.occupation || "Full Stack Developer "}</h1>
             <div className='flex gap-4 items-center mt-3 md:h'>
               <Link to={`${user?.facebook}`}><FaFacebook className='w-6 h-6 text-gray-700 dark:text-gray-300' /></Link>
               <Link to={`${user?.linkedin}`}><FaLinkedin className='w-6 h-6 text-gray-700 dark:text-gray-300' /></Link>
@@ -136,11 +136,11 @@ const Profile = () => {
           </div>
           <div>
             {/*info section*/}
-            <h1 className='font-bold text-center md:text-start text-4xl mb-7'>Welcome {user.firstName || "User"} !</h1>
-            <p><span className='font-semibold'>Email : </span>{user.email}</p>
+            <h1 className='font-bold text-center md:text-start text-4xl mb-7'>Welcome {user?.firstName || "User"} !</h1>
+            <p><span className='font-semibold'>Email : </span>{user?.email}</p>
             <div className='flex flex-col gap-2 items-start justify-start my-5'>
               <Label>About Me</Label>
-              <p className='  border dark:border-gray-600 p-6 rounded-lg'>{user.bio || " Lorem ipsum dolor sit ameconsectetur, adi officia minima aut quisquam, temporibus a aliquid quo, repellat ducimus velit ea voluptate"}</p>
+              <p className='  border dark:border-gray-600 p-6 rounded-lg'>{user?.bio || " Lorem ipsum dolor sit ameconsectetur, adi officia minima aut quisquam, temporibus a aliquid quo, repellat ducimus velit ea voluptate"}</p>
             </div>
 
             <Dialog open={open} onOpenChange={setOpen}>

@@ -10,3 +10,7 @@ it also helps to show preview of the image without uplod in database
 ex {
   "image": "data:image/jpeg;base64,/9j/4AAQSk..."
 }
+
+
+
+npm install
