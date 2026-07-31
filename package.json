@@ -4,7 +4,7 @@
   "main": "server.js",
   "type": "module",
   "scripts": {
-    "build:frontend": "npm install --prefix frontend/vite-project && npm run build --prefix frontend/vite-project",
+    "build:frontend": "npm install --prefix frontend/vite-project && npm run build --prefix Frontend/vite-project",
   "build:backend": "npm install --prefix Backend",
   "build": "npm run build:frontend && npm run build:backend",
   "start": "node Backend/server.js"

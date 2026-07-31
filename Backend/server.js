@@ -42,9 +42,9 @@ app.use("/api/v1/comment",commentRoute)
 // }))
 
 
-app.use(express.static(path.join(__dirname,"../frontend/vite-project/dist")));
+app.use(express.static(path.join(__dirname,"../Frontend/vite-project/dist")));
 app.use((req, res) => {
-  res.sendFile(path.join(__dirname, "../frontend/vite-project/dist", "index.html"));
+  res.sendFile(path.join(__dirname, "../Frontend/vite-project/dist", "index.html"));
 });
 
 // app.use(express.static("Frontend/vite-project/dist"));
