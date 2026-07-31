@@ -1,6 +1,6 @@
 import React, { useRef, useState } from 'react'
 //import { Button } from '../components/ui/Button'
-import Button from "../components/ui/Button";
+import {Button} from "../components/ui/Button";
 import { Label } from '@radix-ui/react-label'
 import { Input } from '../components/ui/input'
 import { Card } from "../components/ui/card"
