@@ -59,7 +59,7 @@ const Navbar = () => {
 
     const handleLogout = async (e) => {
         try {
-            const res = await axios.get("https://full-stack-blogging-webapp.onrender.com/user/logout", { withCredentials: true })
+            const res = await axios.get("https://full-stack-blogging-webapp.onrender.com/api/v1/user/logout", { withCredentials: true })
             if (res.data.success) {
                 navigate("/")
                 dispatch(setUser(null))

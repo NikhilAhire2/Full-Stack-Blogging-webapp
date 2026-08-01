@@ -37,7 +37,7 @@ const navigate=useNavigate();
     try {
 
         dispatch(setLoading(true))
-      const res=await axios.post("https://full-stack-blogging-webapp.onrender.com/user/register",user,{
+      const res=await axios.post("https://full-stack-blogging-webapp.onrender.com/api/v1/user/register",user,{
         headers:{
           "Content-Type":"application/json"
         },

@@ -44,7 +44,7 @@ const YourBlog = () => {
 
   const getOwnBlog = async (req, res) => {
     try {
-      const res = await axios.get("https://full-stack-blogging-webapp.onrender.com/blog/getownblogs", {
+      const res = await axios.get("https://full-stack-blogging-webapp.onrender.com/api/v1/blog/getownblogs", {
         withCredentials: true
       })
       if (res.data.success) {
@@ -63,7 +63,7 @@ const YourBlog = () => {
 const deleteBlog=async(id)=>{
   
   try {
-    const res=await axios.delete(`https://full-stack-blogging-webapp.onrender.com/blog/delete/${id}`,{withCredentials:true})
+    const res=await axios.delete(`https://full-stack-blogging-webapp.onrender.com/api/v1/blog/delete/${id}`,{withCredentials:true})
     if(res.data.success){
       const updateBlogData=blog.filter((blogItem)=>blogItem?._id!==id)
       dispatch(setBlog(updateBlogData));

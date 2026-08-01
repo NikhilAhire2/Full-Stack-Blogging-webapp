@@ -131,7 +131,7 @@ const UpdateBlog = () => {
     formData.append("file", blogData.thumbnail)
     try {
       setLoading(true)
-      const res = await axios.put(`https://full-stack-blogging-webapp.onrender.com/blog/${id}`, formData, {
+      const res = await axios.put(`https://full-stack-blogging-webapp.onrender.com/api/v1/blog/${id}`, formData, {
         headers: {
           "Content-Type": "multipart/form-data"
         },
@@ -164,7 +164,7 @@ const UpdateBlog = () => {
   
   const togglePublishUnpublished=async ()=>{
     try {
-      const res=await axios.patch(`https://full-stack-blogging-webapp.onrender.com/blog/${id}`,
+      const res=await axios.patch(`https://full-stack-blogging-webapp.onrender.com/api/v1/blog/${id}`,
         {},{
 
           withCredentials:true
@@ -186,7 +186,7 @@ const UpdateBlog = () => {
   }
 const deleteBlog=async ()=>{
   try {
-    const res=await axios.delete("https://full-stack-blogging-webapp.onrender.com/blog/delete/${id}",{withCredentials:true})
+    const res=await axios.delete("https://full-stack-blogging-webapp.onrender.com/api/v1/blog/delete/${id}",{withCredentials:true})
 const UpdatedBlogData=blog.filter((blogItem)=>blogItem?._id!==id)
 dispatch(selectBlog(UpdatedBlogData));
 

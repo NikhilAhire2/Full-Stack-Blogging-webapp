@@ -18,7 +18,7 @@ const app = express()
 
 app.use(
     cors({
-        origin: "https://full-stack-blogging-webapp.onrender.com/", // frontend URL
+        origin: "https://full-stack-blogging-webapp.onrender.com", // frontend URL
         credentials: true,               // allow cookies
         methods: ["GET", "POST", "PUT", "DELETE","PATCH"],
         allowedHeaders: ["Content-Type", "Authorization"]
