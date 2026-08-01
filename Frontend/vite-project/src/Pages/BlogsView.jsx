@@ -62,7 +62,7 @@ const generateBlogSummary = async () => {
       selectedBlog.description.replace(/<[^>]*>?/gm, "");
 
     const res = await axios.post(
-      "http://localhost:8000/api/v1/blog/summary",
+      "https://full-stack-blogging-webapp.onrender.com/blog/summary",
       {
         content: plainText
       }
@@ -94,7 +94,7 @@ const askQuestion = async () => {
     const userQuestion = question;
 
     const res = await axios.post(
-      "http://localhost:8000/api/v1/blog/ask-blog",
+      "https://full-stack-blogging-webapp.onrender.com/blog/ask-blog",
       {
         blogId: selectedBlog._id,
         question: userQuestion,
@@ -204,7 +204,7 @@ const [liked, setLiked] = useState(
   const likeOrDislikeHandler = async () => {
     try {
       const action = liked ? 'dislike' : 'like'
-      const res = await axios.get(`http://localhost:8000/api/v1/blog/${selectedBlog?._id}/${action}`, { withCredentials: true })
+      const res = await axios.get(`https://full-stack-blogging-webapp.onrender.com/blog/${selectedBlog?._id}/${action}`, { withCredentials: true })
 
       if (res.data.success) {
         const updatedLikes = liked ? blogLike - 1 : blogLike + 1;
@@ -263,7 +263,7 @@ async (language) => {
 
     const res =
       await axios.post(
-        "http://localhost:8000/api/v1/blog/translate",
+        "https://full-stack-blogging-webapp.onrender.com/blog/translate",
         {
           blogId:
             selectedBlog._id,

@@ -34,7 +34,7 @@ const getSelectedCategory=(value)=>{
 const createBlogHandler=async()=>{
   try {
 
-    const res=await axios.post("http://localhost:8000/api/v1/blog/",{title,category},{
+    const res=await axios.post("https://full-stack-blogging-webapp.onrender.com/blog/",{title,category},{
       headers:{
         "Content-Type":"application/json"
       },

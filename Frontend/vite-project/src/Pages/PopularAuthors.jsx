@@ -8,7 +8,7 @@ const PopularAuthors = () => {
     const getAllUsers = async () => {
 
         try {
-            const res = await axios.get("http://localhost:8000/api/v1/user/all-users");
+            const res = await axios.get("https://full-stack-blogging-webapp.onrender.com/user/all-users");
           //  console.log("API RESPONSE:", res.data.getUser)
             if (res.data.success) {
                 setPppularUser(res.data.getUser)
